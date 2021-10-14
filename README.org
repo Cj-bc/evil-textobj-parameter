@@ -1,0 +1,44 @@
+* Evil-textobj-parameter
+  This is evil version of [[https://github.com/sgur/vim-textobj-parameter][sgur/vim-textobj-parameter]].
+  
+** Usage
+   First, you have to define key(see [[Keybindings]]).
+   Explanation below assume that you configured along with it:
+   
+   For those who familier with [[https://github.com/sgur/vim-textobj-parameter][sgur/vim-textobj-parameter]], this works
+   almost the same except ~i2,~ isn't provided.
+
+*** Inner text object: ~evil-textobj-parameter-inner-parameter~
+
+   ~evil-textobj-parameter-inner-parameter~ represents inner text object.
+
+   #+begin_src python
+     def foo(bar: int, baz: str, fizz: int): -> ():
+	     |<---->|  |<---->|  |<----->|
+   #+end_src
+
+*** Outer text object: ~evil-textobj-parameter-outer-parameter~
+
+    ~evil-textobj-parameter-outer-parameter~ represents outer text object.
+   
+   #+begin_src python
+     def foo(bar: int, baz: str, fizz: int): -> ():
+	     |<------>|
+
+     def foo(bar: int, baz: str, fizz: int): -> ():
+		     |<------>|
+     def foo(bar: int, baz: str, fizz: int): -> ():
+			       |<------->|
+   #+end_src
+
+** Configuration
+*** Keybindings
+    By default, this package doesn't provide any default keybinds.
+    Rather, you define it yourself.
+
+    If you want to use it with the same keybind as original, you can copy this:
+
+    #+begin_src elisp
+      (evil-define-key evil-inner-text-objects-map "," 'evil-textobj-parameter-inner-parameter)
+      (evil-define-key evil-outer-text-objects-map "," 'evil-textobj-parameter-outer-parameter)
+    #+end_src
