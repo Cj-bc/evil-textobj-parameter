@@ -14,7 +14,7 @@
 
    #+begin_src python
      def foo(bar: int, baz: str, fizz: int): -> ():
-	     |<---->|  |<---->|  |<----->|
+             |<---->|  |<---->|  |<----->|
    #+end_src
 
 *** Outer text object: ~evil-textobj-parameter-outer-parameter~
@@ -23,12 +23,12 @@
    
    #+begin_src python
      def foo(bar: int, baz: str, fizz: int): -> ():
-	     |<------>|
+             |<------>|
 
      def foo(bar: int, baz: str, fizz: int): -> ():
-		     |<------>|
+                     |<------>|
      def foo(bar: int, baz: str, fizz: int): -> ():
-			       |<------->|
+                               |<------->|
    #+end_src
 
 ** Configuration
@@ -42,3 +42,4 @@
       (evil-define-key evil-inner-text-objects-map "," 'evil-textobj-parameter-inner-parameter)
       (evil-define-key evil-outer-text-objects-map "," 'evil-textobj-parameter-outer-parameter)
     #+end_src
+** Installation
