@@ -1,3 +1,4 @@
+(require 'evil-macros)
 (evil-define-text-object evil-textobj-parameter-inner-parameter (count &optional beg end type)
   "Text object for function parameter"
   ; :type inclusive
