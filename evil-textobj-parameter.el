@@ -1,3 +1,33 @@
+;;; evil-textobj-parameter.el --- Port of vim-textobj-parameter
+
+;; Copyright (c) 2021 Cj.bc-sd a.k.a. Cj-bc
+
+;; Author: Cj.bc-sd a.k.a. Cj-bc
+;; Maintainer: Cj.bc-sd a.k.a. Cj-bc
+;; Created: 14 Oct 2021
+;; Keywords: evil
+;; URL: https://github.com/Cj-bc/evil-textobj-parameter
+;; Package-Requires: (evil)
+
+;; This file is not part of GNU Emacs.
+
+;;; Commentary:
+;; This package is port of https://github.com/sgur/vim-textobj-parameter
+;; 
+;; This provides two text objects, one for inner textobject and another for outer.
+;;
+;; Quick usage:
+;;   + Assign `evil-textobj-parameter-inner-parameter' and
+;;     `evil-textobj-parameter-outer-parameter' to some key with `define-key'
+;;
+;; Example:
+;;  (define-key evil-inner-text-objects-map "," 'evil-textobj-parameter-inner-parameter)
+;;  (define-key evil-outer-text-objects-map "," 'evil-textobj-parameter-outer-parameter)
+
+;; See README.org on github for more information
+;;
+
+;;; Code:
 (require 'evil-macros)
 (evil-define-text-object evil-textobj-parameter-inner-parameter (count &optional beg end type)
   "Text object for function parameter"
@@ -76,3 +106,4 @@ This will update match data"
 					  ,@(evil-textobj-parameter--first-parameter-pos))))
 
 (provide 'evil-textobj-parameter)
+;;; evil-textobj-parameter.el ends here
