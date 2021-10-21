@@ -74,3 +74,5 @@ This will update match data"
 This will update match data"
   (eval `(evil-textobj-parameter--inside (point)
 					  ,@(evil-textobj-parameter--first-parameter-pos))))
+
+(provide 'evil-textobj-parameter)
