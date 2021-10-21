@@ -37,7 +37,7 @@ This will update match data"
 			     (*? (not ","))
 			     (syntax close-parenthesis)))
 	   )
-      (search-backward ",")
+      (search-backward "," nil nil)
       (re-search-forward re-last-param)
       (list (match-beginning 0) (- (match-end 0) 1)))))
 		       
@@ -61,7 +61,7 @@ This will update match data"
 			      ","
 			      (* (syntax whitespace))))
 	  )
-      (search-forward ",")
+      (search-forward "," nil nil)
       (forward-char 2)
       (re-search-backward re-first-param)
       (list (+ 1 (match-beginning 0)) ; I need `+ 1' because it includes '(' character
