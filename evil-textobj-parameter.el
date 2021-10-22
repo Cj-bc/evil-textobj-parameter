@@ -44,7 +44,7 @@
 
 (evil-define-text-object evil-textobj-parameter-outer-parameter (count &optional beg end type)
   "Text object for function parameter. But it includes comma"
-  (cond ((evil-textobj-parameter--is-first-parameter) (evil-textobj-parameter--first-parameter-pos))
+  (cond ((evil-textobj-parameter--is-first-parameter) (evil-textobj-parameter--first-parameter-pos 'selection))
 	; check 'first-parameter' first or 'can't find ","' error will occur
 	((evil-textobj-parameter--is-last-parameter) (evil-textobj-parameter--last-parameter-pos))
 	(t (save-excursion
@@ -84,26 +84,38 @@ This will update match data"
 				   ,@(evil-textobj-parameter--last-parameter-pos))))
 
 
-(defun evil-textobj-parameter--first-parameter-pos ()
-  "Return pair of beggining and ending of first parameter it found"
+;; 「このtextobjが呼ばれた時、今選択されている対象がfirst parameterであると判定する範囲」と
+;; 「実際にfirst parameterとして取得する範囲」が異なるので、異なる実装をしている
+(defun evil-textobj-parameter--first-parameter-pos (purpose)
+  "Return pair of beggining and ending of first parameter it found
+If the first parameter `purpose' is `search', this will return range that
+should be used to test whether cursor selects thefirst parameter.
+If it is `selection', this will return range that should be used to actually 'select' region"
   (save-excursion
     (let ((re-first-param (rx (syntax open-parenthesis)
-			      (*? (not ","))
-			      ","
-			      (* (syntax whitespace))))
+			      (group (group (*? (not ","))) 
+				     ","
+				     (* (syntax whitespace)))))
+          ; `re-first-param' に定義されているグループのうち、
+          ; 一つ目のグループは実際に選択範囲される範囲で、
+          ; 二つ目のグループは第一引数を選択していると判断する範囲
+	  (gid (cond ((eq purpose 'selection) 1)
+		     ((eq purpose 'search) 2)
+		     (t (error "Wrong symbol. possible symbols are: search, selection"))))
 	  )
       (search-forward "," nil nil)
       (forward-char 2)
       (re-search-backward re-first-param)
-      (list (+ 1 (match-beginning 0)) ; I need `+ 1' because it includes '(' character
-	    (match-end 0)))))
-					; I intentionally don't 
+      (list (match-beginning 1)
+	    (- (match-end gid) 1))))) ; `(match-end 0)' は `,' の一つ後ろを示している。
+					; けど、カンマよりも手前
+					; and I want it to be on ',' itself.
 
 (defun evil-textobj-parameter--is-first-parameter ()
   "Return 't if cursor is now on last parameter
 This will update match data"
   (eval `(evil-textobj-parameter--inside (point)
-					  ,@(evil-textobj-parameter--first-parameter-pos))))
+					  ,@(evil-textobj-parameter--first-parameter-pos 'search))))
 
 (provide 'evil-textobj-parameter)
 ;;; evil-textobj-parameter.el ends here
