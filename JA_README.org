@@ -43,7 +43,7 @@
     以下のように設定します。
     
     #+begin_src elisp
-      (evil-define-key evil-inner-text-objects-map "," 'evil-textobj-parameter-inner-parameter)
-      (evil-define-key evil-outer-text-objects-map "," 'evil-textobj-parameter-outer-parameter)
+      (define-key evil-inner-text-objects-map "," 'evil-textobj-parameter-inner-parameter)
+      (define-key evil-outer-text-objects-map "," 'evil-textobj-parameter-outer-parameter)
     #+end_src
     
