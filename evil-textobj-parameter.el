@@ -103,9 +103,8 @@ If it is `selection', this will return range that should be used to actually 'se
 		     ((eq purpose 'search) 2)
 		     (t (error "Wrong symbol. possible symbols are: search, selection"))))
 	  )
-      (search-forward "," nil nil)
-      (forward-char 2)
-      (re-search-backward re-first-param)
+      (re-search-backward (rx (syntax open-parenthesis)) nil nil)
+      (re-search-forward re-first-param)
       (list (match-beginning 1)
 	    (- (match-end gid) 1))))) ; `(match-end 0)' は `,' の一つ後ろを示している。
 					; けど、カンマよりも手前
