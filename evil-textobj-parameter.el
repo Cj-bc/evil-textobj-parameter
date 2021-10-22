@@ -99,16 +99,14 @@ If it is `selection', this will return range that should be used to actually 'se
           ; `re-first-param' に定義されているグループのうち、
           ; 一つ目のグループは実際に選択範囲される範囲で、
           ; 二つ目のグループは第一引数を選択していると判断する範囲
-	  (gid (cond ((eq purpose 'selection) 1)
-		     ((eq purpose 'search) 2)
-		     (t (error "Wrong symbol. possible symbols are: search, selection"))))
 	  )
       (re-search-backward (rx (syntax open-parenthesis)) nil nil)
       (re-search-forward re-first-param)
       (list (match-beginning 1)
-	    (- (match-end gid) 1))))) ; `(match-end 0)' は `,' の一つ後ろを示している。
-					; けど、カンマよりも手前
-					; and I want it to be on ',' itself.
+	    (cond ((eq purpose 'selection) (match-end 1))
+		  ((eq purpose 'search) (- (match-end 2) 1))
+		  (t (error "Wrong symbol. possible symbols are: search, selection")))
+	    ))))
 
 (defun evil-textobj-parameter--is-first-parameter ()
   "Return 't if cursor is now on last parameter
