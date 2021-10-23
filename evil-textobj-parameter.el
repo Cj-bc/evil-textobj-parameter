@@ -68,9 +68,9 @@ This will update match data"
 			     (*? (not ","))
 			     (syntax close-parenthesis)))
 	   )
-      (search-backward "," nil nil)
-      (re-search-forward re-last-param)
-      (list (match-beginning 0) (- (match-end 0) 1)))))
+      (when (and (search-backward "," nil t)
+		 (re-search-forward re-last-param nil t))
+	(list (match-beginning 0) (- (match-end 0) 1))))))
 		       
 					; I need to `(match-end 0) - 2' because
 					; re-last-param include close paren
@@ -100,18 +100,17 @@ If it is `selection', this will return range that should be used to actually 'se
           ; 一つ目のグループは実際に選択範囲される範囲で、
           ; 二つ目のグループは第一引数を選択していると判断する範囲
 	  )
-      (re-search-backward (rx (syntax open-parenthesis)) nil nil)
-      (re-search-forward re-first-param)
-      (list (match-beginning 1)
-	    (cond ((eq purpose 'selection) (match-end 1))
-		  ((eq purpose 'search) (- (match-end 2) 1))
-		  (t (error "Wrong symbol. possible symbols are: search, selection")))
-	    ))))
+      (when (and (re-search-backward (rx (syntax open-parenthesis)) nil t)
+		 (re-search-forward re-first-param nil t))
+	(list (match-beginning 1)
+	      (cond ((eq purpose 'selection) (match-end 1))
+		    ((eq purpose 'search) (- (match-end 2) 1))
+		    (t (error "Wrong symbol. possible symbols are: search, selection")))
+	      )))))
 
 (defun evil-textobj-parameter--is-first-parameter ()
   "Return 't if cursor is now on last parameter
 This will update match data"
-  (eval `(evil-textobj-parameter--inside (point)
 					  ,@(evil-textobj-parameter--first-parameter-pos 'search))))
 
 (provide 'evil-textobj-parameter)
