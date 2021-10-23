@@ -76,12 +76,13 @@ This will update match data"
 					; re-last-param include close paren
  
 
-
+;;
 (defun evil-textobj-parameter--is-last-parameter ()
   "Return 't if cursor is now on last parameter
 This will update match data"
-  (eval `(evil-textobj-parameter--inside (point)
-				   ,@(evil-textobj-parameter--last-parameter-pos))))
+  (when (evil-textobj-parameter--last-parameter-pos)
+    (eval `(evil-textobj-parameter--inside (point)
+					   ,@(evil-textobj-parameter--last-parameter-pos)))))
 
 
 ;; 「このtextobjが呼ばれた時、今選択されている対象がfirst parameterであると判定する範囲」と
@@ -111,7 +112,9 @@ If it is `selection', this will return range that should be used to actually 'se
 (defun evil-textobj-parameter--is-first-parameter ()
   "Return 't if cursor is now on last parameter
 This will update match data"
-					  ,@(evil-textobj-parameter--first-parameter-pos 'search))))
+  (when (evil-textobj-parameter--first-parameter-pos)
+    (eval `(evil-textobj-parameter--inside (point)
+					   ,@(evil-textobj-parameter--first-parameter-pos 'search)))))
 
 (provide 'evil-textobj-parameter)
 ;;; evil-textobj-parameter.el ends here
