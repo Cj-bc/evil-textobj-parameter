@@ -48,10 +48,12 @@
 	; check 'first-parameter' first or 'can't find ","' error will occur
 	((evil-textobj-parameter--is-last-parameter) (evil-textobj-parameter--last-parameter-pos))
 	(t (save-excursion
-	      (search-backward ",")
-	      (backward-char 1)
-	      (re-search-forward (rx "," (*? (not ",")) ","))
-	      (list (match-beginning 0) (- (match-end 0) 1))))
+	     (forward-char 1)
+	     (cond ((and (search-backward "," nil t)
+			(re-search-forward (rx "," (*? (not ",")) ",") nil t)
+			)
+		    (list (match-beginning 0) (- (match-end 0) 1)))
+		   )))
 	))
 
 (defun evil-textobj-parameter--inside (pos beg end)
