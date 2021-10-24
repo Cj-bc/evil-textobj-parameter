@@ -116,7 +116,7 @@ If it is `selection', this will return range that should be used to actually 'se
 (defun evil-textobj-parameter--is-first-parameter ()
   "Return 't if cursor is now on last parameter
 This will update match data"
-  (when (evil-textobj-parameter--first-parameter-pos)
+  (when (evil-textobj-parameter--first-parameter-pos 'search)
     (eval `(evil-textobj-parameter--inside (point)
 					   ,@(evil-textobj-parameter--first-parameter-pos 'search)))))
 
