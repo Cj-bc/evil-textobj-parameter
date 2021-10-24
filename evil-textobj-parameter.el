@@ -53,8 +53,10 @@
 			(re-search-forward (rx "," (*? (not ",")) ",") nil t)
 			)
 		    (list (match-beginning 0) (- (match-end 0) 1)))
+		   (t (error "No parameter found"))
 		   )))
 	))
+
 
 (defun evil-textobj-parameter--inside (pos beg end)
   "shorthand for beg <= pos <= end"
