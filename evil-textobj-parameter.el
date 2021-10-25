@@ -32,13 +32,25 @@
 (evil-define-text-object evil-textobj-parameter-inner-parameter (count &optional beg end type)
   "Text object for function parameter"
   ; :type inclusive
-  (let ((beg (progn (re-search-backward (rx (any ",(")))
-		    (forward-char 2)
-		    (point)))
-	(end (progn (re-search-forward (rx (any ",)")))
-		    (backward-char 1)
-		    (point))))
-    (list beg end)
+  ;; 一番内側の括弧よりも外側のカンマを探索してしまわないようにする。
+  (let* ((before-previous-paren-open (save-excursion
+				(re-search-backward (rx (syntax open-parenthesis)))
+				(- (match-beginning 0) 1)))
+	 (after-next-paren-close (save-excursion
+			     (re-search-forward (rx (syntax close-parenthesis)))
+			     (+ (match-beginning 0) 1)))
+	 ;; TODO: 現状これだと文字列の中の,も反応してしまうなぁ
+	 (beg (save-excursion
+		(when (re-search-backward (rx (any ",(")) before-previous-paren-open t)
+  		  (forward-char 1)
+  		  (point))))
+  	 (end (save-excursion
+		(when (re-search-forward (rx (any ",)")) after-next-paren-close t)
+  		  (backward-char 1)
+  		  (point)))))
+    (if (and beg end)
+	(list beg end)
+      (error "No parameter found"))
     )
   )
 
