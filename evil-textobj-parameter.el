@@ -59,13 +59,16 @@
 	((evil-textobj-parameter--is-last-parameter) (evil-textobj-parameter--last-parameter-pos))
 	(t (save-excursion
 	     (forward-char 1)
-	     (cond ((and (search-backward "," nil t)
-                       (re-search-forward (rx "," (*? (not ",")) ",") nil t)
-			)
-		    (list (match-beginning 0) (- (match-end 0) 1)))
-		   (t (error "No parameter found"))
-		   )))
-	))
+	     (let ((nearest-paren (evil-select-paren (rx (syntax open-parenthesis))
+						     (rx (syntax close-parenthesis))
+						     beg end type nil t))
+		   )
+	       (cond ((and (search-backward "," (nth 0 nearest-paren) t)
+			   (re-search-forward (rx "," (*? (not ",")) ",") (nth 1 nearest-paren) t)
+			   )
+		      (list (match-beginning 0) (- (match-end 0) 1)))
+		     (t (error "No parameter found"))
+		     ))))))
 
 
 (defun evil-textobj-parameter--inside (pos beg end)
@@ -81,9 +84,12 @@ This will update match data"
     (let ((re-last-param (rx ","
 			     (*? (not ","))
 			     (syntax close-parenthesis)))
+	  (nearest-paren (evil-select-paren (rx (syntax open-parenthesis))
+					   (rx (syntax close-parenthesis))
+					   beg end type nil t))
 	   )
-      (when (and (search-backward "," nil t)
-		 (re-search-forward re-last-param nil t))
+      (when (and (search-backward "," (nth 0 nearest-paren) t)
+		 (re-search-forward re-last-param (nth 1 nearest-paren) t))
 	(list (match-beginning 0) (- (match-end 0) 1))))))
 		       
 					; I need to `(match-end 0) - 2' because
@@ -111,12 +117,15 @@ If it is `selection', this will return range that should be used to actually 'se
 			      (group (group (*? (not ","))) 
 				     ","
 				     (* (syntax whitespace)))))
+	  (nearest-paren (evil-select-paren (rx (syntax open-parenthesis))
+					    (rx (syntax close-parenthesis))
+					    beg end type nil t))
           ; `re-first-param' に定義されているグループのうち、
           ; 一つ目のグループは実際に選択範囲される範囲で、
           ; 二つ目のグループは第一引数を選択していると判断する範囲
 	  )
-      (when (and (re-search-backward (rx (syntax open-parenthesis)) nil t)
-		 (re-search-forward re-first-param nil t))
+      (when (and (re-search-backward (rx (syntax open-parenthesis)) (nth 0 nearest-paren) t)
+		 (re-search-forward re-first-param (nth 1 nearest-paren) t))
 	(list (match-beginning 1)
 	      (cond ((eq purpose 'selection) (match-end 1))
 		    ((eq purpose 'search) (- (match-end 2) 1))
