@@ -47,3 +47,18 @@
       (define-key evil-outer-text-objects-map "," 'evil-textobj-parameter-outer-parameter)
     #+end_src
     
+** インスール
+
+   現在、Githubのみで配付されています。
+
+
+   [[https://github.com/conao3/leaf.el][conao3/leaf.el]]を使用しているのなら、以下のようにできます:
+
+   #+begin_src elisp
+     (leaf evil-textobj-parameter
+       :el-get Cj-bc/evil-textobj-parameter
+       :config
+       (define-key evil-inner-text-objects-map "," 'evil-textobj-parameter-inner-parameter)
+       (define-key evil-outer-text-objects-map "," 'evil-textobj-parameter-outer-parameter)
+       )
+   #+end_src

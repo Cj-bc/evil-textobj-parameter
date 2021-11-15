@@ -43,3 +43,15 @@
       (define-key evil-outer-text-objects-map "," 'evil-textobj-parameter-outer-parameter)
     #+end_src
 ** Installation
+   Currently, this package is distributed only on Github.
+
+   If you're using [[https://github.com/conao3/leaf.el][conao3/leaf.el]], you can do:
+
+   #+begin_src elisp
+     (leaf evil-textobj-parameter
+       :el-get Cj-bc/evil-textobj-parameter
+       :config
+       (define-key evil-inner-text-objects-map "," 'evil-textobj-parameter-inner-parameter)
+       (define-key evil-outer-text-objects-map "," 'evil-textobj-parameter-outer-parameter)
+       )
+   #+end_src
