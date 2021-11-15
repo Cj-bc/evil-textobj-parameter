@@ -1,3 +1,6 @@
+日本語: [[file:JA_README.org]]
+---
+
 * Evil-textobj-parameter
   This is evil version of [[https://github.com/sgur/vim-textobj-parameter][sgur/vim-textobj-parameter]].
   
