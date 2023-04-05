@@ -1,6 +1,6 @@
 ;;; evil-textobj-parameter.el --- Port of vim-textobj-parameter
 
-;; Copyright (c) 2021 Cj.bc-sd a.k.a. Cj-bc
+;; Copyright (c) 2021,2023 Cj.bc-sd a.k.a. Cj-bc
 
 ;; Author: Cj.bc-sd a.k.a. Cj-bc
 ;; Maintainer: Cj.bc-sd a.k.a. Cj-bc
