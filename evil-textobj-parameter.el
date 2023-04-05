@@ -41,9 +41,10 @@
   (let* ((nearest-paren (evil-select-paren (rx (syntax open-parenthesis))
 					   (rx (syntax close-parenthesis))
 					   beg end type nil t))
-	 ;; TODO: 現状これだと文字列の中の,も反応してしまうなぁ
 	 (beg (save-excursion
 		(let ((keepLoop t))
+		  (when (thing-at-point 'evil-quote)
+		    (goto-char (car (bounds-of-thing-at-point 'evil-quote))))
 		  (while (and keepLoop (re-search-backward (rx (any ",()\"")) (nth 0 nearest-paren) t))
 		    (cond ((eq (char-after) ?\)) (progn (forward-char)
 							(goto-char (car (bounds-of-thing-at-point 'sexp)))))
@@ -53,6 +54,8 @@
 		(1+ (point))))
   	 (end (save-excursion
 		(let ((keepLoop t))
+		  (when (thing-at-point 'evil-quote)
+		    (goto-char (cdr (bounds-of-thing-at-point 'evil-quote))))
 		  (while (and keepLoop (re-search-forward (rx (any ",()\"")) (nth 1 nearest-paren) t))
 		    (cond ((eq (char-before) ?\() (progn (backward-char)
 							 (goto-char (cdr (bounds-of-thing-at-point 'sexp)))))
