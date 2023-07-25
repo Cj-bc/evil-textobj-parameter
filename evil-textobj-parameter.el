@@ -40,7 +40,7 @@
   ;; 一番内側の括弧よりも外側のカンマを探索してしまわないようにする。
   (let* ((nearest-paren (evil-select-paren (rx (syntax open-parenthesis))
 					   (rx (syntax close-parenthesis))
-					   beg end type nil t))
+					  beg end type nil t))
 	 (beg (save-excursion
 		(let ((keepLoop t))
 		  ;; Skip all characters when point is in quoted string in order to ignore all
@@ -75,9 +75,7 @@
   		(1- (point)))))
     (if (and beg end)
 	(list beg end)
-      (error "No parameter found"))
-    )
-  )
+      (error "No parameter found"))))
 
 (evil-define-text-object evil-textobj-parameter-outer-parameter (count &optional beg end type)
   "Text object for function parameter. But it includes comma"
