@@ -43,11 +43,16 @@
 					   beg end type nil t))
 	 (beg (save-excursion
 		(let ((keepLoop t))
+		  ;; Skip all characters when point is in quoted string in order to ignore all
+		  ;; commas/parenthesises in string literal.
+		  ;; Same for calculation of "end" below.
 		  (when (thing-at-point 'evil-quote)
 		    (goto-char (car (bounds-of-thing-at-point 'evil-quote))))
 		  (while (and keepLoop (re-search-backward
 					(rx (or (any ",\"") (syntax close-parenthesis) (syntax open-parenthesis)))
 					(nth 0 nearest-paren) t))
+		    ;; Skips all characters surrounded by "parenthesises" and double-quote.
+		    ;; Same for calculation of "end" below.
 		    (cl-case (char-syntax (char-after))
 		      (?\) (skip-syntax-backward "^(")
 		       (backward-char))
