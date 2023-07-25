@@ -79,18 +79,10 @@
   (cond ((evil-textobj-parameter--is-first-parameter) (evil-textobj-parameter--first-parameter-pos 'selection))
 	; check 'first-parameter' first or 'can't find ","' error will occur
 	((evil-textobj-parameter--is-last-parameter) (evil-textobj-parameter--last-parameter-pos))
-	(t (save-excursion
-	     (forward-char 1)
-	     (let ((nearest-paren (evil-select-paren (rx (syntax open-parenthesis))
-						     (rx (syntax close-parenthesis))
-						     beg end type nil t))
-		   )
-	       (cond ((and (search-backward "," (nth 0 nearest-paren) t)
-			   (re-search-forward (rx "," (*? (not ",")) ",") (nth 1 nearest-paren) t)
-			   )
-		      (list (match-beginning 0) (- (match-end 0) 1)))
-		     (t (error "No parameter found"))
-		     ))))))
+	(t (let* ((res (evil-textobj-parameter-inner-parameter count beg end type))
+		  (_beg (1- (nth 0 res)))
+		  (_end (nth 1 res)))
+	     (list _beg _end)))))
 
 
 (defun evil-textobj-parameter--inside (pos beg end)
