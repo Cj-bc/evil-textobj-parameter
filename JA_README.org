@@ -60,6 +60,7 @@ English: [[file:README.org]]
    #+begin_src elisp
      (leaf evil-textobj-parameter
        :el-get Cj-bc/evil-textobj-parameter
+       :require t
        :config
        (define-key evil-inner-text-objects-map "," 'evil-textobj-parameter-inner-parameter)
        (define-key evil-outer-text-objects-map "," 'evil-textobj-parameter-outer-parameter)
