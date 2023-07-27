@@ -5,7 +5,7 @@ English: [[file:README.org]]
   [[https://github.com/sgur/vim-textobj-parameter][sgur/vim-textobj-parameter]]のEvil実装です。
   
 ** 使い方
-   まず、 [[*キーバインディング]]を参考にキーバインドを設定する必要があります。
+   まず、 [[#keybindings][キーバインディング]]を参考にキーバインドを設定する必要があります。
    以下の説明では、その説明通りに設定をしたものとして進めます。
 
    [[https://github.com/sgur/vim-textobj-parameter][sgur/vim-textobj-parameter]]を使ったことがある場合、 ~i2,~ が存在しない
@@ -38,6 +38,9 @@ English: [[file:README.org]]
 ** 設定
 
 *** キーバインディング
+:PROPERTIES:
+:CUSTOM_ID: keybindings
+:END:
     このパッケージは、デフォルトではキーバインディングを提供していません。
     これは、よりユーザーがカスタマイズ出来た方が良いだろうという考え方を
     踏襲したことによります。

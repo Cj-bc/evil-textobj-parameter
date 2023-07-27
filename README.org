@@ -5,7 +5,7 @@
   This is evil version of [[https://github.com/sgur/vim-textobj-parameter][sgur/vim-textobj-parameter]].
   
 ** Usage
-   First, you have to define key(see [[Keybindings]]).
+   First, you have to define key(see [[#keybindings][Keybindings]]).
    Explanation below assume that you configured along with it:
    
    For those who familier with [[https://github.com/sgur/vim-textobj-parameter][sgur/vim-textobj-parameter]], this works
@@ -36,6 +36,9 @@
 
 ** Configuration
 *** Keybindings
+:PROPERTIES:
+:CUSTOM_ID: keybindings
+:END:
     By default, this package doesn't provide any default keybinds.
     Rather, you define it yourself.
 
